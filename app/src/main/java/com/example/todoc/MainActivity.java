@@ -76,12 +76,12 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
      * List of all current tasks of the application
      */
     @NonNull
-    private final ArrayList<Task> taskArrayList = db.getAllTask();
+    private ArrayList<Task> taskArrayList = new ArrayList<>();
 
     /**
      * The adapter which handles the list of tasks
      */
-    private final TasksAdapter adapter = new TasksAdapter(taskArrayList, this);
+    private TasksAdapter adapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -91,6 +91,10 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
 
         listTasks = findViewById(R.id.list_tasks);
         lblNoTasks = findViewById(R.id.lbl_no_task);
+
+        taskArrayList = db.getAllTask();
+        setLblNoTasksVisibility(taskArrayList.size() == 0);
+        adapter = new TasksAdapter(taskArrayList, this);
 
         listTasks.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         listTasks.setAdapter(adapter);
@@ -125,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
 
     @Override
     public void onDeleteTask(Task task) {
-        this.taskArrayList.remove(task);
+        db.deleteTask(task);
         updateTasks();
     }
 
@@ -198,20 +202,31 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
      * @param task the task to be added to the list
      */
     private void addTask(@NonNull Task task) {
-        this.taskArrayList.add(task);
+        db.addTask(task);
         updateTasks();
+    }
+
+    private void setLblNoTasksVisibility(boolean isTaskArrayListEmpty){
+        if (isTaskArrayListEmpty){
+            lblNoTasks.setVisibility(View.VISIBLE);
+            listTasks.setVisibility(View.GONE);
+        }
+        else{
+            lblNoTasks.setVisibility(View.GONE);
+            listTasks.setVisibility(View.VISIBLE);
+        }
     }
 
     /**
      * Updates the list of tasks in the UI
      */
     private void updateTasks() {
+        taskArrayList = db.getAllTask();
+
         if (taskArrayList.size() == 0) {
-            lblNoTasks.setVisibility(View.VISIBLE);
-            listTasks.setVisibility(View.GONE);
+            setLblNoTasksVisibility(true);
         } else {
-            lblNoTasks.setVisibility(View.GONE);
-            listTasks.setVisibility(View.VISIBLE);
+            setLblNoTasksVisibility(false);
             switch (sortMethod) {
                 case ALPHABETICAL:
                     Collections.sort(taskArrayList, new Task.TaskAZComparator());
