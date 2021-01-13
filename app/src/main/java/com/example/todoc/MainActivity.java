@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.todoc.database.Database;
 import com.example.todoc.database.DatabaseHandler;
 
 import java.util.ArrayList;
@@ -69,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
     /**
      * The database use for save=ing task
      */
-    private final DatabaseHandler db = new DatabaseHandler(MainActivity.this);
+    private final DatabaseHandler db = Database.getInstance(this);
 
     /**
      * List of all current tasks of the application
