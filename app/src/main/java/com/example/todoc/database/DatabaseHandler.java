@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 
 import com.example.todoc.Task;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.todoc.database.DatabaseConstants.DATABASE_NAME;
@@ -99,14 +100,36 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         cursor.close();
 
-        return null;
+        return task;
     }
 
     //Get all task
     public List<Task> getAllTask(){
+        SQLiteDatabase db = this.getReadableDatabase();
 
+        List<Task> taskList = new ArrayList<>();
 
-        return null;
+        //Select all tasks
+        String SELECT_ALL_TASKS = "SELECT * FROM " + TASK_TABLE;
+        Cursor cursor = db.rawQuery(SELECT_ALL_TASKS, null);
+
+        //Getting each contact from the cursor and put it in our list
+        if (cursor.moveToFirst()){
+            do{
+                Task task = new Task();
+                task.setId(cursor.getInt(cursor.getColumnIndex(TASK_COLUMN_ID)));
+                task.setName(cursor.getString(cursor.getColumnIndex(TASK_COLUMN_NAME)));
+                task.setCreationTimestamp(cursor.getLong(cursor.getColumnIndex(TASK_COLUMN_CREATION_TIMESTAMP)));
+                task.setProjectId(cursor.getLong(cursor.getColumnIndex(TASK_COLUMN_PROJECT_ID)));
+
+                taskList.add(task);
+            }while (cursor.moveToNext());
+
+            cursor.close();
+
+        }
+
+        return taskList;
     }
 
     //Delete a task
