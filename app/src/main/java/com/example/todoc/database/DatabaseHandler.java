@@ -134,17 +134,34 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     //Delete a task
     public void deleteTask(Task task){
+        SQLiteDatabase db = this.getWritableDatabase();
 
+        db.delete(TASK_TABLE, TASK_COLUMN_ID + " = ?", new String[]{String.valueOf(task.getId())});
+        db.close();
     }
 
     //Delete all task
     public void deleteAllTask(){
+        SQLiteDatabase db = this.getWritableDatabase();
 
+        for (Task task: this.getAllTask())
+            db.delete(TASK_TABLE, TASK_COLUMN_ID + " = ? ", new String[]{String.valueOf(task.getId())});
+
+        db.close();
     }
 
     //Get task count
-    public void getTaskCount(){
+    public int getTaskCount(){
+        SQLiteDatabase db = this.getReadableDatabase();
 
+        String COUNT_QUERY = "SELECT * FROM " + TASK_TABLE ;
+        Cursor cursors = db.rawQuery(COUNT_QUERY, null);
+
+        int count = cursors.getCount();
+
+        cursors.close();
+
+        return count;
     }
 
 }
