@@ -1,10 +1,15 @@
 package com.example.todoc.database;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
+
+import com.example.todoc.Task;
+
+import java.util.List;
 
 import static com.example.todoc.database.DatabaseConstants.DATABASE_NAME;
 import static com.example.todoc.database.DatabaseConstants.DROP_TABLES;
@@ -54,4 +59,50 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.execSQL(DROP_TABLES, new String[]{DATABASE_NAME});
         onCreate(db);
     }
+
+    /*********** CRUD ON TASK TABLE ***********/
+
+    //Add task
+    public void addTask(Task task){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(TASK_COLUMN_NAME, task.getName());
+        values.put(TASK_COLUMN_CREATION_TIMESTAMP, task.getCreationTimestamp());
+        values.put(TASK_COLUMN_PROJECT_ID, task.getProjectId());
+
+        db.insert(TASK_TABLE, null, values);
+
+        db.close();
+    }
+
+    //Get a task
+    public Task getTask(int id){
+
+
+        return null;
+    }
+
+    //Get all task
+    public List<Task> getAllTask(){
+
+
+        return null;
+    }
+
+    //Delete a task
+    public void deleteTask(Task task){
+
+    }
+
+    //Delete all task
+    public void deleteAllTask(){
+
+    }
+
+    //Get task count
+    public void getTaskCount(){
+
+    }
+
 }
