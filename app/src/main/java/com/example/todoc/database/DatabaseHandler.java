@@ -2,6 +2,7 @@ package com.example.todoc.database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -78,7 +79,25 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     //Get a task
     public Task getTask(int id){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Task task = new Task();
 
+        Cursor cursor = db.query(TASK_TABLE,
+                new String[]{TASK_COLUMN_ID, TASK_COLUMN_NAME, TASK_COLUMN_CREATION_TIMESTAMP, TASK_COLUMN_PROJECT_ID},
+                TASK_COLUMN_ID + " = ? ",
+                new String[]{String.valueOf(id)},
+                null, null, null);
+
+        if (cursor != null)
+            cursor.moveToFirst();
+
+        assert cursor != null;
+        task.setId(cursor.getInt(cursor.getColumnIndex(TASK_COLUMN_ID)));
+        task.setName(cursor.getString(cursor.getColumnIndex(TASK_COLUMN_NAME)));
+        task.setCreationTimestamp(cursor.getLong(cursor.getColumnIndex(TASK_COLUMN_CREATION_TIMESTAMP)));
+        task.setProjectId(cursor.getLong(cursor.getColumnIndex(TASK_COLUMN_PROJECT_ID)));
+
+        cursor.close();
 
         return null;
     }
