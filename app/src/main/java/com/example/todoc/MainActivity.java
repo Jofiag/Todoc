@@ -18,6 +18,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.todoc.database.DatabaseHandler;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -27,17 +29,6 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
      * List of all projects available in the application
      */
     private final Project[] allProjects = Project.getAllProjects();
-
-    /**
-     * List of all current tasks of the application
-     */
-    @NonNull
-    private final ArrayList<Task> tasks = new ArrayList<>();
-
-    /**
-     * The adapter which handles the list of tasks
-     */
-    private final TasksAdapter adapter = new TasksAdapter(tasks, this);
 
     /**
      * The sort method to be used to display tasks
@@ -74,6 +65,22 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
      */
     // Suppress warning is safe because variable is initialized in onCreate
     private TextView lblNoTasks;
+
+    /**
+     * The database use for save=ing task
+     */
+    private final DatabaseHandler db = new DatabaseHandler(MainActivity.this);
+
+    /**
+     * List of all current tasks of the application
+     */
+    @NonNull
+    private final ArrayList<Task> taskArrayList = db.getAllTask();
+
+    /**
+     * The adapter which handles the list of tasks
+     */
+    private final TasksAdapter adapter = new TasksAdapter(taskArrayList, this);
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -117,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
 
     @Override
     public void onDeleteTask(Task task) {
-        tasks.remove(task);
+        this.taskArrayList.remove(task);
         updateTasks();
     }
 
@@ -190,7 +197,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
      * @param task the task to be added to the list
      */
     private void addTask(@NonNull Task task) {
-        tasks.add(task);
+        this.taskArrayList.add(task);
         updateTasks();
     }
 
@@ -198,7 +205,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
      * Updates the list of tasks in the UI
      */
     private void updateTasks() {
-        if (tasks.size() == 0) {
+        if (taskArrayList.size() == 0) {
             lblNoTasks.setVisibility(View.VISIBLE);
             listTasks.setVisibility(View.GONE);
         } else {
@@ -206,20 +213,20 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
             listTasks.setVisibility(View.VISIBLE);
             switch (sortMethod) {
                 case ALPHABETICAL:
-                    Collections.sort(tasks, new Task.TaskAZComparator());
+                    Collections.sort(taskArrayList, new Task.TaskAZComparator());
                     break;
                 case ALPHABETICAL_INVERTED:
-                    Collections.sort(tasks, new Task.TaskZAComparator());
+                    Collections.sort(taskArrayList, new Task.TaskZAComparator());
                     break;
                 case RECENT_FIRST:
-                    Collections.sort(tasks, new Task.TaskRecentComparator());
+                    Collections.sort(taskArrayList, new Task.TaskRecentComparator());
                     break;
                 case OLD_FIRST:
-                    Collections.sort(tasks, new Task.TaskOldComparator());
+                    Collections.sort(taskArrayList, new Task.TaskOldComparator());
                     break;
 
             }
-            adapter.updateTasks(tasks);
+            adapter.updateTasks(taskArrayList);
         }
     }
 

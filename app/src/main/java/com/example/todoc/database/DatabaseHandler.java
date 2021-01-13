@@ -104,10 +104,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     //Get all task
-    public List<Task> getAllTask(){
+    public ArrayList<Task> getAllTask(){
         SQLiteDatabase db = this.getReadableDatabase();
 
-        List<Task> taskList = new ArrayList<>();
+        ArrayList<Task> taskList = new ArrayList<>();
 
         //Select all tasks
         String SELECT_ALL_TASKS = "SELECT * FROM " + TASK_TABLE;
