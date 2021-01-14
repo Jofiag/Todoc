@@ -11,7 +11,6 @@ import androidx.annotation.Nullable;
 import com.example.todoc.Task;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static com.example.todoc.database.DatabaseConstants.DATABASE_NAME;
 import static com.example.todoc.database.DatabaseConstants.DROP_TABLES;
