@@ -7,6 +7,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 
+import com.example.todoc.database.Database;
+import com.example.todoc.database.DatabaseHandler;
+
+import org.junit.BeforeClass;
+import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,12 +31,18 @@ import static org.junit.Assert.assertThat;
 
 @RunWith(AndroidJUnit4.class)
 public class MainActivityInstrumentedTest {
+
     @Rule
     public ActivityTestRule<MainActivity> rule = new ActivityTestRule<>(MainActivity.class);
+
 
     @Test
     public void addAndRemoveTask() {
         MainActivity activity = rule.getActivity();
+        DatabaseHandler db = Database.getInstance(activity);
+        db.deleteAllTask();
+        int defaultSize = db.getTaskCount();
+
         TextView lblNoTask = activity.findViewById(R.id.lbl_no_task);
         RecyclerView listTasks = activity.findViewById(R.id.list_tasks);
 
@@ -43,12 +54,12 @@ public class MainActivityInstrumentedTest {
         assertThat(lblNoTask.getVisibility(), equalTo(View.GONE));
         // Check that recyclerView is displayed
         assertThat(listTasks.getVisibility(), equalTo(View.VISIBLE));
-        // Check that it contains one element only
-        assertThat(Objects.requireNonNull(listTasks.getAdapter()).getItemCount(), equalTo(1));
+        // Check that it contains one more element
+        assertThat(Objects.requireNonNull(listTasks.getAdapter()).getItemCount(), equalTo(defaultSize + 1));
 
         onView(withId(R.id.img_delete)).perform(click());
 
-        // Check that lblTask is displayed
+       // Check that lblTask is displayed
         assertThat(lblNoTask.getVisibility(), equalTo(View.VISIBLE));
         // Check that recyclerView is not displayed anymore
         assertThat(listTasks.getVisibility(), equalTo(View.GONE));
