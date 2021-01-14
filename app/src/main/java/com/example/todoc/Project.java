@@ -4,6 +4,13 @@ package com.example.todoc;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.room.ColumnInfo;
+import androidx.room.PrimaryKey;
+
+import static com.example.todoc.database.DatabaseConstants.PROJECT_COLUMN_COLOR;
+import static com.example.todoc.database.DatabaseConstants.PROJECT_COLUMN_ID;
+import static com.example.todoc.database.DatabaseConstants.PROJECT_COLUMN_NAME;
+import static com.example.todoc.database.DatabaseConstants.TASK_COLUMN_ID;
 
 /**
  * <p>Models for project in which tasks are included.</p>
@@ -14,18 +21,22 @@ public class Project {
     /**
      * The unique identifier of the project
      */
+    @ColumnInfo(name = PROJECT_COLUMN_ID)
+    @PrimaryKey(autoGenerate = true)
     private final long id;
 
     /**
      * The name of the project
      */
     @NonNull
+    @ColumnInfo(name = PROJECT_COLUMN_NAME)
     private final String name;
 
     /**
      * The hex (ARGB) code of the color associated to the project
      */
     @ColorInt
+    @ColumnInfo(name = PROJECT_COLUMN_COLOR)
     private final int color;
 
     /**

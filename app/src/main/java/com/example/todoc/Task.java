@@ -1,36 +1,51 @@
 package com.example.todoc;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.PrimaryKey;
 
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Comparator;
 
+import static com.example.todoc.database.DatabaseConstants.PROJECT_COLUMN_ID;
+import static com.example.todoc.database.DatabaseConstants.PROJECT_TABLE;
+import static com.example.todoc.database.DatabaseConstants.TASK_COLUMN_CREATION_TIMESTAMP;
+import static com.example.todoc.database.DatabaseConstants.TASK_COLUMN_ID;
+import static com.example.todoc.database.DatabaseConstants.TASK_COLUMN_NAME;
+import static com.example.todoc.database.DatabaseConstants.TASK_TABLE;
+
 /**
  * <p>Model for the tasks of the application.</p>
- *
- * @author Gaëtan HERFRAY
  */
+
+@Entity(tableName = TASK_TABLE)
 public class Task {
     /**
      * The unique identifier of the task
      */
+    @ColumnInfo(name = TASK_COLUMN_ID)
+    @PrimaryKey(autoGenerate = true)
     private long id;
 
     /**
      * The unique identifier of the project associated to the task
      */
+    @ForeignKey(entity = Project.class, parentColumns = PROJECT_COLUMN_ID, childColumns = TASK_COLUMN_ID)
     private long projectId;
 
     /**
      * The name of the task
      */
-    // Suppress warning because setName is called in constructor
+    @ColumnInfo(name = TASK_COLUMN_NAME)
     private String name;
 
     /**
      * The timestamp when the task has been created
      */
+    @ColumnInfo(name = TASK_COLUMN_CREATION_TIMESTAMP)
     private long creationTimestamp;
 
     /**
