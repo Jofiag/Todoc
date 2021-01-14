@@ -7,7 +7,7 @@ import androidx.room.Query;
 
 import com.example.todoc.Task;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import static com.example.todoc.database.DatabaseConstants.TASK_TABLE;
 
@@ -20,7 +20,7 @@ public interface DataAccessObject {
     Task getTask(int id);
 
     @Query("SELECT * FROM " + TASK_TABLE)
-    LiveData<List<Task>> getAllTask();
+    LiveData<ArrayList<Task>> getAllTask();
 
     @Query("DELETE FROM " + TASK_TABLE + " WHERE id = :id")
     void deleteTask(int id);

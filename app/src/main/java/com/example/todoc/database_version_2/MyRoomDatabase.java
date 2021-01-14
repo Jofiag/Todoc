@@ -17,16 +17,16 @@ import static com.example.todoc.database.DatabaseConstants.DATABASE_NAME;
 
 @SuppressWarnings("deprecation")
 @Database(entities = {Task.class, Project.class}, version = 1)
-public abstract class RoomDatabase extends androidx.room.RoomDatabase {
+public abstract class MyRoomDatabase extends androidx.room.RoomDatabase {
 
-    public static volatile RoomDatabase INSTANCE;
+    public static volatile MyRoomDatabase INSTANCE;
     public abstract DataAccessObject dataAccessObject();
 
-    static RoomDatabase getDatabase(final Context context){
+    static MyRoomDatabase getDatabase(final Context context){
         if (INSTANCE == null){
-            synchronized (RoomDatabase.class){
+            synchronized (MyRoomDatabase.class){
                 if (INSTANCE == null){
-                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(), RoomDatabase.class, DATABASE_NAME).build();
+                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(), MyRoomDatabase.class, DATABASE_NAME).build();
                 }
             }
         }
@@ -35,7 +35,7 @@ public abstract class RoomDatabase extends androidx.room.RoomDatabase {
     }
 
     //Callback in order to initialize the db, but in background
-    private static final RoomDatabase.Callback roomDatabaseCallback = new RoomDatabase.Callback(){
+    private static final MyRoomDatabase.Callback roomDatabaseCallback = new MyRoomDatabase.Callback(){
         @RequiresApi(api = Build.VERSION_CODES.N)
         @Override
         public void onOpen(@NonNull SupportSQLiteDatabase db) {
@@ -46,7 +46,7 @@ public abstract class RoomDatabase extends androidx.room.RoomDatabase {
 
     private static class populateDatabaseAsync extends AsyncTask<Void, Void, Void> {
         private final DataAccessObject asyncDao;
-        public populateDatabaseAsync(RoomDatabase instance) {
+        public populateDatabaseAsync(MyRoomDatabase instance) {
             asyncDao = instance.dataAccessObject();
         }
 
