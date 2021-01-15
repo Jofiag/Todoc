@@ -12,7 +12,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Comparator;
 
 import static com.example.todoc.database.DatabaseConstants.PROJECT_COLUMN_ID;
-import static com.example.todoc.database.DatabaseConstants.PROJECT_TABLE;
 import static com.example.todoc.database.DatabaseConstants.TASK_COLUMN_CREATION_TIMESTAMP;
 import static com.example.todoc.database.DatabaseConstants.TASK_COLUMN_ID;
 import static com.example.todoc.database.DatabaseConstants.TASK_COLUMN_NAME;

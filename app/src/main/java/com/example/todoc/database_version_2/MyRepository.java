@@ -12,11 +12,11 @@ import java.util.List;
  * We are going to use Repository to manage all the sources of data.
  * Here we only have our Dao, but we could have also a network data throw JSON.
  */
-public class Repository {
+public class MyRepository {
     private final DataAccessObject dataAccessObject;
     private final LiveData<List<Task>> liveTaskList;
 
-    public Repository(Application application) {
+    public MyRepository(Application application) {
         MyRoomDatabase db = MyRoomDatabase.getDatabase(application);
         dataAccessObject = db.dataAccessObject();
         liveTaskList = dataAccessObject.getAllTask();
