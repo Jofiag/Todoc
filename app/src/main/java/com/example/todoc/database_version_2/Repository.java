@@ -7,12 +7,12 @@ import androidx.lifecycle.LiveData;
 
 import com.example.todoc.Task;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings("deprecation")
 public class Repository {
     private final DataAccessObject dataAccessObject;
-    private final LiveData<ArrayList<Task>> liveTaskList;
+    private final LiveData<List<Task>> liveTaskList;
 
     public Repository(Application application){
         MyRoomDatabase db = MyRoomDatabase.getDatabase(application);
@@ -20,7 +20,7 @@ public class Repository {
         liveTaskList = dataAccessObject.getAllTask();
     }
 
-    public LiveData<ArrayList<Task>> getLiveTaskList() {
+    public LiveData<List<Task>> getLiveTaskList() {
         return liveTaskList;
     }
 
@@ -41,13 +41,11 @@ public class Repository {
         private final DataAccessObject asyncDataAccessObject;
         private final boolean isAddAction;
         private final boolean isDeleteAllAction;
-        private final Integer id;
 
         public MyAsyncTask(DataAccessObject asyncDataAccessObject, boolean isAddAction, boolean isDeleteAllAction, Integer id) {
             this.asyncDataAccessObject = asyncDataAccessObject;
             this.isAddAction = isAddAction;
             this.isDeleteAllAction = isDeleteAllAction;
-            this.id = id;
         }
 
         @Override
@@ -57,7 +55,7 @@ public class Repository {
             else if (isDeleteAllAction)
                 asyncDataAccessObject.deleteAllTask();
             else
-                asyncDataAccessObject.deleteTask(id);
+                asyncDataAccessObject.deleteTask(tasks[0]);
 
             return null;
         }

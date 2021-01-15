@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import org.jetbrains.annotations.Nullable;
@@ -63,6 +64,7 @@ public class Task {
         this.setCreationTimestamp(creationTimestamp);
     }
 
+    @Ignore
     public Task() {
     }
 

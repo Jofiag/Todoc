@@ -53,4 +53,14 @@ dependencies {
 
     // optional - Test helpers
     testImplementation "androidx.room:room-testing:2.2.6"
+
+    implementation "android.arch.lifecycle:extensions:1.1.1"
+    implementation "androidx.lifecycle:lifecycle-viewmodel:2.2.0"
+    implementation "androidx.lifecycle:lifecycle-livedata:2.2.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.2.0"
+    implementation "androidx.lifecycle:lifecycle-common-java8:2.2.0"
+    implementation "androidx.lifecycle:lifecycle-service:2.2.0"
+    implementation "androidx.lifecycle:lifecycle-process:2.2.0"
+    implementation "androidx.lifecycle:lifecycle-reactivestreams:2.2.0"
+    testImplementation "androidx.arch.core:core-testing:2.1.0"
 }

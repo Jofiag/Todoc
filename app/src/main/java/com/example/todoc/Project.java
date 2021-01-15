@@ -5,18 +5,20 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
+import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import static com.example.todoc.database.DatabaseConstants.PROJECT_COLUMN_COLOR;
 import static com.example.todoc.database.DatabaseConstants.PROJECT_COLUMN_ID;
 import static com.example.todoc.database.DatabaseConstants.PROJECT_COLUMN_NAME;
+import static com.example.todoc.database.DatabaseConstants.PROJECT_TABLE;
 import static com.example.todoc.database.DatabaseConstants.TASK_COLUMN_ID;
+import static com.example.todoc.database.DatabaseConstants.TASK_TABLE;
 
 /**
  * <p>Models for project in which tasks are included.</p>
- *
- * @author Gaëtan HERFRAY
  */
+@Entity(tableName = PROJECT_TABLE)
 public class Project {
     /**
      * The unique identifier of the project
@@ -46,7 +48,7 @@ public class Project {
      * @param name  the name of the project to set
      * @param color the hex (ARGB) code of the color associated to the project to set
      */
-    private Project(long id, @NonNull String name, @ColorInt int color) {
+    public Project(long id, @NonNull String name, @ColorInt int color) {
         this.id = id;
         this.name = name;
         this.color = color;

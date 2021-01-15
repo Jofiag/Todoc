@@ -8,15 +8,14 @@ import androidx.lifecycle.LiveData;
 
 import com.example.todoc.Task;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public class ViewModel extends AndroidViewModel {
+public class ViewModel extends androidx.lifecycle.ViewModel {
 
     private final Repository repository;
-    private final LiveData<ArrayList<Task>> liveTaskList;
+    private final LiveData<List<Task>> liveTaskList;
 
     public ViewModel(@NonNull Application application) {
-        super(application);
         repository = new Repository(application);
         liveTaskList = repository.getLiveTaskList();
     }
@@ -25,15 +24,7 @@ public class ViewModel extends AndroidViewModel {
         repository.addTask(task);
     }
 
-    public void deleteTask(int id){
-        repository.deleteTask(id);
-    }
-
-    public void deleteAllTask(){
-        repository.deleteAllTask();
-    }
-
-    public LiveData<ArrayList<Task>> getLiveTaskList() {
+    public LiveData<List<Task>> getLiveTaskList() {
         return liveTaskList;
     }
 }
