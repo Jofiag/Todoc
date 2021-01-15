@@ -15,15 +15,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.todoc.database.Database;
-import com.example.todoc.database.DatabaseHandler;
+import com.example.todoc.database_version_2.MyViewModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements TasksAdapter.DeleteTaskListener {
     /**
@@ -70,13 +72,14 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
     /**
      * The database use for save=ing task
      */
-    private final DatabaseHandler db = Database.getInstance(this);
+    //private final DatabaseHandler db = Database.getInstance(this);
+    private MyViewModel myViewModel;
 
     /**
      * List of all current tasks of the application
      */
     @NonNull
-    private ArrayList<Task> taskArrayList = new ArrayList<>();
+    private List<Task> taskList = new ArrayList<>();
 
     /**
      * The adapter which handles the list of tasks
@@ -92,14 +95,21 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
         listTasks = findViewById(R.id.list_tasks);
         lblNoTasks = findViewById(R.id.lbl_no_task);
 
-        taskArrayList = db.getAllTask();
-        setLblNoTasksVisibility(taskArrayList.size() == 0);
-        adapter = new TasksAdapter(taskArrayList, this);
+        adapter = new TasksAdapter(taskList, MainActivity.this);
 
-        listTasks.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        listTasks.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.VERTICAL, false));
         listTasks.setAdapter(adapter);
 
         findViewById(R.id.fab_add_task).setOnClickListener(view -> showAddTaskDialog());
+
+        myViewModel = new ViewModelProvider.AndroidViewModelFactory(MainActivity.this.getApplication())
+                .create(MyViewModel.class);
+
+        myViewModel.getLiveTaskList().observe(this, tasks -> {
+            taskList = tasks;
+            adapter.updateTasks(taskList);
+            setLblNoTasksVisibility(taskList.size() == 0);
+        });
     }
 
     @Override
@@ -129,8 +139,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
 
     @Override
     public void onDeleteTask(Task task) {
-        db.deleteTask(task);
-        updateTasks();
+        myViewModel.deleteTask(task);
     }
 
     /**
@@ -157,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
             // If both project and name of the task have been set
             else if (taskProject != null) {
                 // TODO: Replace this by id of persisted task
-                long id = (long) (Math.random() * 50000);
+                int id = (int) (Math.random() * 50000);
 
 
                 Task task = new Task(
@@ -202,8 +211,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
      * @param task the task to be added to the list
      */
     private void addTask(@NonNull Task task) {
-        db.addTask(task);
-        updateTasks();
+        myViewModel.addTask(task);
     }
 
     private void setLblNoTasksVisibility(boolean isTaskArrayListEmpty){
@@ -221,28 +229,26 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
      * Updates the list of tasks in the UI
      */
     private void updateTasks() {
-        taskArrayList = db.getAllTask();
-
-        if (taskArrayList.size() == 0) {
+        if (taskList.size() == 0) {
             setLblNoTasksVisibility(true);
         } else {
             setLblNoTasksVisibility(false);
             switch (sortMethod) {
                 case ALPHABETICAL:
-                    Collections.sort(taskArrayList, new Task.TaskAZComparator());
+                    Collections.sort(taskList, new Task.TaskAZComparator());
                     break;
                 case ALPHABETICAL_INVERTED:
-                    Collections.sort(taskArrayList, new Task.TaskZAComparator());
+                    Collections.sort(taskList, new Task.TaskZAComparator());
                     break;
                 case RECENT_FIRST:
-                    Collections.sort(taskArrayList, new Task.TaskRecentComparator());
+                    Collections.sort(taskList, new Task.TaskRecentComparator());
                     break;
                 case OLD_FIRST:
-                    Collections.sort(taskArrayList, new Task.TaskOldComparator());
+                    Collections.sort(taskList, new Task.TaskOldComparator());
                     break;
 
             }
-            adapter.updateTasks(taskArrayList);
+            adapter.updateTasks(taskList);
         }
     }
 

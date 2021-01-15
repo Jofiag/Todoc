@@ -15,8 +15,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import static com.example.todoc.database.DatabaseConstants.DATABASE_NAME;
+import static com.example.todoc.database.DatabaseConstants.VERSION;
 
-@Database(entities = {Task.class, Project.class}, version = 1, exportSchema = false)
+@Database(entities = {Task.class, Project.class}, version = VERSION)
 public abstract class MyRoomDatabase extends androidx.room.RoomDatabase {
     public static final int NUMBER_OF_THREADS = 4;
     public abstract DataAccessObject dataAccessObject();
@@ -30,7 +31,8 @@ public abstract class MyRoomDatabase extends androidx.room.RoomDatabase {
                 if (INSTANCE == null)
                     //Creation of the db
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(), MyRoomDatabase.class, DATABASE_NAME)
-                            .addCallback(sRoomDatabaseCallback) // we use the callback we created bellow to initialize tg db in background
+                            //.addCallback(sRoomDatabaseCallback) // we use the callback we created bellow to initialize tg db in background
+                            .fallbackToDestructiveMigration()
                             .build();
             }
         }

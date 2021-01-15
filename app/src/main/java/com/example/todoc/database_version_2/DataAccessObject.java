@@ -19,7 +19,7 @@ public interface DataAccessObject {
     void addTask(Task task);
 
     @Query("SELECT * FROM " + TASK_TABLE + " WHERE id = :id")
-    void getTask(int id);
+    Task getTask(int id);
 
     @Query("SELECT * FROM " + TASK_TABLE)
     LiveData<List<Task>> getAllTask();

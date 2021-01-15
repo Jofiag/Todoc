@@ -15,7 +15,7 @@ public class DatabaseConstants implements BaseColumns {
     public static final String TASK_COLUMN_ID = "id";
     public static final String TASK_COLUMN_NAME = "name";
     public static final String TASK_COLUMN_CREATION_TIMESTAMP = "creation_timestamp";
-    public static final String TASK_COLUMN_PROJECT_ID = "project_id";
+    public static final String TASK_COLUMN_PROJECT_ID = "projectId";
 
     //project table columns
     public static final String PROJECT_COLUMN_ID = "id";

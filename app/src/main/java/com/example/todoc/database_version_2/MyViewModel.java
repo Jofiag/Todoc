@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class MyViewModel extends AndroidViewModel {
     public static MyRepository myRepository;
-    public final LiveData<List<Task>> liveTaskList;
+    private final LiveData<List<Task>> liveTaskList;
 
     public MyViewModel(@NonNull Application application) {
         super(application);

@@ -5,6 +5,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Ignore;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import org.jetbrains.annotations.Nullable;
@@ -13,28 +14,28 @@ import java.util.Comparator;
 
 import static com.example.todoc.database.DatabaseConstants.PROJECT_COLUMN_ID;
 import static com.example.todoc.database.DatabaseConstants.TASK_COLUMN_CREATION_TIMESTAMP;
-import static com.example.todoc.database.DatabaseConstants.TASK_COLUMN_ID;
 import static com.example.todoc.database.DatabaseConstants.TASK_COLUMN_NAME;
+import static com.example.todoc.database.DatabaseConstants.TASK_COLUMN_PROJECT_ID;
 import static com.example.todoc.database.DatabaseConstants.TASK_TABLE;
 
 /**
  * <p>Model for the tasks of the application.</p>
  */
 
-@Entity(tableName = TASK_TABLE)
+@Entity(tableName = TASK_TABLE, indices = {@Index(value = {TASK_COLUMN_PROJECT_ID, TASK_COLUMN_NAME, TASK_COLUMN_CREATION_TIMESTAMP}, unique = true)})
 public class Task {
     /**
      * The unique identifier of the task
      */
-    @ColumnInfo(name = TASK_COLUMN_ID)
     @PrimaryKey(autoGenerate = true)
-    private long id;
+    private int id;
 
     /**
      * The unique identifier of the project associated to the task
      */
-    @ForeignKey(entity = Project.class, parentColumns = PROJECT_COLUMN_ID, childColumns = TASK_COLUMN_ID)
-    private long projectId;
+    @ForeignKey(entity = Project.class, parentColumns = PROJECT_COLUMN_ID, childColumns = TASK_COLUMN_PROJECT_ID)
+    //@ColumnInfo(name = TASK_COLUMN_PROJECT_ID)
+    private int projectId;
 
     /**
      * The name of the task
@@ -56,7 +57,7 @@ public class Task {
      * @param name              the name of the task to set
      * @param creationTimestamp the timestamp when the task has been created to set
      */
-    public Task(long id, long projectId, @NonNull String name, long creationTimestamp) {
+    public Task(int id, int projectId, @NonNull String name, long creationTimestamp) {
         this.setId(id);
         this.setProjectId(projectId);
         this.setName(name);
@@ -72,7 +73,7 @@ public class Task {
      *
      * @return the unique identifier of the task
      */
-    public long getId() {
+    public int getId() {
         return id;
     }
 
@@ -81,7 +82,7 @@ public class Task {
      *
      * @param id the unique identifier of the task to set
      */
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -90,11 +91,11 @@ public class Task {
      *
      * @param projectId the unique identifier of the project associated to the task to set
      */
-    public void setProjectId(long projectId) {
+    public void setProjectId(int projectId) {
         this.projectId = projectId;
     }
 
-    public long getProjectId() {
+    public int getProjectId() {
         return projectId;
     }
 
