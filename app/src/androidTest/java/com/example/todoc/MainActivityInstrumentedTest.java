@@ -35,21 +35,19 @@ public class MainActivityInstrumentedTest {
     public ActivityTestRule<MainActivity> rule = new ActivityTestRule<>(MainActivity.class);
 
     private Activity activity;
-    private MyViewModel myViewModel;
     private RecyclerView listTasks;
 
     @Before
     public void setAttribute(){
         activity = rule.getActivity();
-        myViewModel = new ViewModelProvider.AndroidViewModelFactory(activity.getApplication()).create(MyViewModel.class);
         listTasks = activity.findViewById(R.id.list_tasks);
-    }
 
+        MyViewModel myViewModel = new ViewModelProvider.AndroidViewModelFactory(activity.getApplication()).create(MyViewModel.class);
+        myViewModel.deleteAllTask();
+    }
 
     @Test
     public void addAndRemoveTask() {
-        myViewModel.deleteAllTask();
-
         TextView lblNoTask = activity.findViewById(R.id.lbl_no_task);
 
         onView(withId(R.id.fab_add_task)).perform(click());
@@ -75,8 +73,6 @@ public class MainActivityInstrumentedTest {
 
     @Test
     public void sortTasks() {
-        myViewModel.deleteAllTask();
-
         onView(withId(R.id.fab_add_task)).perform(click());
         onView(withId(R.id.txt_task_name)).perform(replaceText("aaa Tâche example"));
         onView(withId(android.R.id.button1)).perform(click());
