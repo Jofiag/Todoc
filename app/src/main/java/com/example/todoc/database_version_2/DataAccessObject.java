@@ -13,13 +13,11 @@ import java.util.List;
 
 import static com.example.todoc.database.DatabaseConstants.TASK_TABLE;
 
+@SuppressWarnings("UnusedReturnValue")
 @Dao
 public interface DataAccessObject {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void addTask(Task task);
-
-    @Query("SELECT * FROM " + TASK_TABLE + " WHERE id = :id")
-    Task getTask(int id);
 
     @Query("SELECT * FROM " + TASK_TABLE)
     LiveData<List<Task>> getAllTask();

@@ -31,7 +31,7 @@ public abstract class MyRoomDatabase extends androidx.room.RoomDatabase {
                 if (INSTANCE == null)
                     //Creation of the db
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(), MyRoomDatabase.class, DATABASE_NAME)
-                            //.addCallback(sRoomDatabaseCallback) // we use the callback we created bellow to initialize tg db in background
+                            .addCallback(sRoomDatabaseCallback) // we use the callback we created bellow to initialize tg db in background
                             .fallbackToDestructiveMigration()
                             .build();
             }
@@ -49,7 +49,7 @@ public abstract class MyRoomDatabase extends androidx.room.RoomDatabase {
                         DataAccessObject dataAccessObject = INSTANCE.dataAccessObject();
 
                         //Here we initialize the database in the background
-                        dataAccessObject.deleteAllTask();
+                        dataAccessObject.getAllTask();
 
                     });
                 }

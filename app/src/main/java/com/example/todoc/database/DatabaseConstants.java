@@ -12,7 +12,7 @@ public class DatabaseConstants implements BaseColumns {
     public static final String PROJECT_TABLE = "project";
 
     //task table columns
-    public static final String TASK_COLUMN_ID = "id";
+    //public static final String TASK_COLUMN_ID = "id";
     public static final String TASK_COLUMN_NAME = "name";
     public static final String TASK_COLUMN_CREATION_TIMESTAMP = "creation_timestamp";
     public static final String TASK_COLUMN_PROJECT_ID = "projectId";
@@ -23,6 +23,6 @@ public class DatabaseConstants implements BaseColumns {
     public static final String PROJECT_COLUMN_COLOR = "color";
 
     //some queries
-    public static final String DROP_TABLES = "DROP TABLE IF EXISTS";
+    //public static final String DROP_TABLES = "DROP TABLE IF EXISTS";
 
 }

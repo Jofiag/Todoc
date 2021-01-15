@@ -28,10 +28,6 @@ public class MyViewModel extends AndroidViewModel {
         myRepository.addTask(task);
     }
 
-    public void getTask(int id) {
-        myRepository.getTask(id);
-    }
-
     public LiveData<List<Task>> getLiveTaskList() {
         return liveTaskList;
     }

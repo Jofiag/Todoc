@@ -28,10 +28,6 @@ public class MyRepository {
         MyRoomDatabase.databaseExecutor.execute(() -> dataAccessObject.addTask(task));
     }
 
-    public void getTask(int id) {
-        MyRoomDatabase.databaseExecutor.execute(() -> dataAccessObject.getTask(id));
-    }
-
     public LiveData<List<Task>> getLiveTaskList() {
         return liveTaskList;
     }
