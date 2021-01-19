@@ -258,7 +258,8 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
      */
     @NonNull
     private AlertDialog getAddTaskDialog() {
-        final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this, R.style.Dialog);
+        final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+        //final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this, R.style.Dialog);
 
         alertBuilder.setTitle(R.string.add_task);
         alertBuilder.setView(R.layout.dialog_add_task);

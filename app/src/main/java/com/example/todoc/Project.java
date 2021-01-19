@@ -18,6 +18,9 @@ import static com.example.todoc.database.DatabaseConstants.PROJECT_TABLE;
  */
 @Entity(tableName = PROJECT_TABLE, indices = {@Index(value = {PROJECT_COLUMN_NAME, PROJECT_COLUMN_COLOR}, unique = true)})
 public class Project {
+    public static final int COLOR_1 = 0xFFEADAD1;
+    public static final int COLOR_2 = 0xFFB4CDBA;
+    public static final int COLOR_3 = 0xFFA3CED2;
     /**
      * The unique identifier of the project
      */
@@ -36,10 +39,8 @@ public class Project {
      */
     @ColorInt
     @ColumnInfo(name = PROJECT_COLUMN_COLOR)
-    private final int color;
-    /**
-     * TO DO : change
-     */
+    private int color;
+
 
     /**
      * Instantiates a new Project.
@@ -62,10 +63,14 @@ public class Project {
     @NonNull
     public static Project[] getAllProjects() {
         return new Project[]{
-                new Project(1, "Projet Tartampion", 0xFFEADAD1),
-                new Project(2, "Projet Lucidia", 0xFFB4CDBA),
-                new Project(3, "Projet Circus", 0xFFA3CED2),
+                new Project(1, "Projet Tartampion", COLOR_1),
+                new Project(2, "Projet Lucidia", COLOR_2),
+                new Project(3, "Projet Circus", COLOR_3),
         };
+    }
+
+    public void setColor(int color) {
+        this.color = color;
     }
 
     /**
@@ -118,4 +123,10 @@ public class Project {
     public String toString() {
         return getName();
     }
+
+    /*private enum ProjectColor{
+        COLOR_P1,
+        COLOR_P2,
+        COLOR_P3
+    }*/
 }
