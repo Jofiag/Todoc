@@ -262,7 +262,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
 
         alertBuilder.setTitle(R.string.add_task);
         alertBuilder.setView(R.layout.dialog_add_task);
-        alertBuilder.setPositiveButton(R.string.add, null);
+        alertBuilder.setPositiveButton(R.string.add, (dialog, which) -> onPositiveButtonClick(dialog));
         alertBuilder.setOnDismissListener(dialogInterface -> {
             dialogEditText = null;
             dialogSpinner = null;
@@ -272,11 +272,11 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
         dialog = alertBuilder.create();
 
         // This instead of listener to positive button in order to avoid automatic dismiss
-        dialog.setOnShowListener(dialogInterface -> {
+        /*dialog.setOnShowListener(dialogInterface -> {
 
             Button button = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
             button.setOnClickListener(view -> onPositiveButtonClick(dialog));
-        });
+        });*/
 
         return dialog;
     }

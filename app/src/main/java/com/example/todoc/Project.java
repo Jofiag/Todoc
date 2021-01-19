@@ -37,6 +37,9 @@ public class Project {
     @ColorInt
     @ColumnInfo(name = PROJECT_COLUMN_COLOR)
     private final int color;
+    /**
+     * TO DO : change
+     */
 
     /**
      * Instantiates a new Project.
